@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
 
+        // Setting up Parse server interface
+        let config = ParseClientConfiguration{
+            $0.applicationId = "makestagram" // Setting APP_ID
+            $0.server = "https://makestagram-parse-nf.herokuapp.com/parse"
+        }
+        
+        Parse.initializeWithConfiguration(config)
+        
+        // Attempting to log in with test credentials
+        do {
+            try PFUser.logInWithUsername("test", password:"test")
+        }
+        catch {
+            print("Unable to log in")
+        }
+        
+        // Checking if log in went through
+        if let currentUser = PFUser.currentUser() {
+            print("\(currentUser.username!) logged in successfully")
+        }
+        else {
+            print("No logged in user:(")
+        }
         return true
     }
 
