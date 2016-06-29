@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class TimelineViewController: UIViewController {
 
@@ -28,7 +29,14 @@ class TimelineViewController: UIViewController {
             // The "in" keyword signifies the start of a closure's code,
             // the stuff in parenthesis before it are the params that the closure takes
             // This is called a "trailing closure".
-            print("recieved a callback")
+            if let image = image {
+                
+                let imageFile = PFFile(name: "image.jpg", data: UIImageJPEGRepresentation(image, 0.8)!)
+                let post = PFObject(className: "Post")
+                
+                post["imageFile"] = imageFile
+                post.saveInBackground()
+            }
         }
     }
 }
